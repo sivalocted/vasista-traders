@@ -1,5 +1,4 @@
-import { motion, useInView } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { CheckCircle, MapPin, Eye, Target, Award, Globe, Package, Users } from "lucide-react";
 
@@ -14,89 +13,6 @@ function FadeUp({ children, delay = 0, className = "" }: { children: React.React
     >
       {children}
     </motion.div>
-  );
-}
-
-function AnimatedImageBlock() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!inView) return;
-    let n = 0;
-    const timer = setInterval(() => {
-      n += 1;
-      if (n >= 5) { setCount(5); clearInterval(timer); }
-      else setCount(n);
-    }, 120);
-    return () => clearInterval(timer);
-  }, [inView]);
-
-  return (
-    <div ref={ref} className="relative" style={{ paddingBottom: "56px", paddingRight: "16px" }}>
-      {/* Large warehouse image — slides in from left */}
-      <motion.div
-        initial={{ opacity: 0, x: -60 }}
-        animate={inView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-        className="relative overflow-hidden"
-        style={{ width: "72%", zIndex: 2 }}
-      >
-        <motion.img
-          src="/warehouse.png"
-          alt="Vasista Trading warehouse"
-          className="w-full object-cover"
-          style={{ height: "320px", borderRadius: "2px", objectPosition: "center" }}
-          whileHover={{ scale: 1.04 }}
-          transition={{ duration: 0.5 }}
-        />
-      </motion.div>
-
-      {/* Small cargo ship image — slides in from right with delay */}
-      <motion.div
-        initial={{ opacity: 0, x: 60 }}
-        animate={inView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.85, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute bottom-0 right-0 overflow-hidden"
-        style={{ width: "55%", zIndex: 1 }}
-      >
-        <motion.img
-          src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=500&q=85"
-          alt="Cargo ship"
-          className="w-full object-cover"
-          style={{ height: "215px", borderRadius: "2px", filter: "brightness(0.82)" }}
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.5 }}
-        />
-      </motion.div>
-
-      {/* Yellow badge — springs in with counting number */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.35 }}
-        animate={inView ? { opacity: 1, scale: 1 } : {}}
-        transition={{ duration: 0.55, delay: 0.48, type: "spring", stiffness: 220, damping: 14 }}
-        whileHover={{ scale: 1.08, rotate: -2 }}
-        className="absolute flex flex-col items-center justify-center text-center shadow-2xl"
-        style={{
-          backgroundColor: "#FBD903",
-          color: "#13223C",
-          width: "130px",
-          height: "130px",
-          borderRadius: "2px",
-          zIndex: 6,
-          right: "28%",
-          bottom: "32px",
-        }}
-      >
-        <div className="font-black leading-none" style={{ fontSize: "2.6rem" }}>
-          {count}+
-        </div>
-        <div className="text-[10px] font-black tracking-wider mt-1 leading-tight">
-          YEARS OF<br />EXCELLENCE
-        </div>
-      </motion.div>
-    </div>
   );
 }
 
@@ -131,7 +47,24 @@ export default function AboutPage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-16 items-start relative z-10">
           {/* Images */}
-          <AnimatedImageBlock />
+          <FadeUp>
+            <div className="relative" style={{ paddingBottom: "50px" }}>
+              <div className="relative" style={{ width: "75%", zIndex: 2 }}>
+                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=700&q=85" alt="" className="w-full object-cover" style={{ height: "320px", borderRadius: "2px" }} />
+                <motion.div
+                  whileHover={{ scale: 1.06 }}
+                  className="absolute -right-8 bottom-0 flex flex-col items-center justify-center text-center shadow-xl"
+                  style={{ backgroundColor: "#FBD903", color: "#13223C", width: "130px", height: "130px", borderRadius: "2px", zIndex: 5 }}
+                >
+                  <div className="font-black text-4xl leading-none">5+</div>
+                  <div className="text-[10px] font-black tracking-wider mt-1 leading-tight">YEARS OF<br/>EXCELLENCE</div>
+                </motion.div>
+              </div>
+              <div className="absolute bottom-0 right-0" style={{ width: "58%", zIndex: 1 }}>
+                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=500&q=85" alt="" className="w-full object-cover" style={{ height: "210px", borderRadius: "2px", filter: "brightness(0.8)" }} />
+              </div>
+            </div>
+          </FadeUp>
 
           {/* Text */}
           <FadeUp delay={0.15}>

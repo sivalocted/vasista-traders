@@ -39,6 +39,89 @@ function Counter({ end, suffix = "" }: { end: number; suffix?: string }) {
   return <span ref={ref}>{val}{suffix}</span>;
 }
 
+function AnimatedImageBlock() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    let n = 0;
+    const timer = setInterval(() => {
+      n += 1;
+      if (n >= 5) { setCount(5); clearInterval(timer); }
+      else setCount(n);
+    }, 120);
+    return () => clearInterval(timer);
+  }, [inView]);
+
+  return (
+    <div ref={ref} className="relative" style={{ paddingBottom: "50px", paddingRight: "16px" }}>
+      {/* Large warehouse image — slides in from left */}
+      <motion.div
+        initial={{ opacity: 0, x: -60 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="relative overflow-hidden"
+        style={{ width: "72%", zIndex: 2 }}
+      >
+        <motion.img
+          src="/warehouse.png"
+          alt="Vasista Trading warehouse"
+          className="w-full object-cover"
+          style={{ height: "300px", borderRadius: "2px", objectPosition: "center" }}
+          whileHover={{ scale: 1.04 }}
+          transition={{ duration: 0.5 }}
+        />
+      </motion.div>
+
+      {/* Small cargo ship image — slides in from right with delay */}
+      <motion.div
+        initial={{ opacity: 0, x: 60 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute bottom-0 right-0 overflow-hidden"
+        style={{ width: "55%", zIndex: 1 }}
+      >
+        <motion.img
+          src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=500&q=85"
+          alt="Cargo ship"
+          className="w-full object-cover"
+          style={{ height: "210px", borderRadius: "2px", filter: "brightness(0.82)" }}
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.5 }}
+        />
+      </motion.div>
+
+      {/* Yellow badge — pops in with spring */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.4 }}
+        animate={inView ? { opacity: 1, scale: 1 } : {}}
+        transition={{ duration: 0.6, delay: 0.45, type: "spring", stiffness: 200, damping: 14 }}
+        whileHover={{ scale: 1.08, rotate: -2 }}
+        className="absolute flex flex-col items-center justify-center text-center shadow-2xl"
+        style={{
+          backgroundColor: "#FBD903",
+          color: "#13223C",
+          width: "130px",
+          height: "130px",
+          borderRadius: "2px",
+          zIndex: 6,
+          right: "28%",
+          bottom: "28px",
+        }}
+      >
+        <div className="font-black leading-none" style={{ fontSize: "2.6rem" }}>
+          {count}+
+        </div>
+        <div className="text-[10px] font-black tracking-wider mt-1 leading-tight">
+          YEARS OF<br />EXCELLENCE
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 export default function HomePage() {
   const [loaded, setLoaded] = useState(false);
   useEffect(() => { const t = setTimeout(() => setLoaded(true), 80); return () => clearTimeout(t); }, []);
@@ -136,27 +219,7 @@ export default function HomePage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-14 items-start relative z-10">
           {/* Image column */}
-          <FadeUp>
-            <div className="relative" style={{ paddingBottom: "40px" }}>
-              {/* Large top image */}
-              <div className="relative" style={{ width: "75%", zIndex: 2 }}>
-                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=700&q=85" alt="" className="w-full object-cover" style={{ height: "300px", borderRadius: "2px" }} />
-                {/* Yellow badge */}
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="absolute -right-10 bottom-0 flex flex-col items-center justify-center text-center"
-                  style={{ backgroundColor: "#FBD903", color: "#13223C", width: "130px", height: "130px", borderRadius: "2px", zIndex: 5 }}
-                >
-                  <div className="font-black text-4xl leading-none">5+</div>
-                  <div className="text-[10px] font-black tracking-wider mt-1 leading-tight">YEARS OF<br/>EXCELLENCE</div>
-                </motion.div>
-              </div>
-              {/* Second overlapping image */}
-              <div className="absolute bottom-0 right-0" style={{ width: "60%", zIndex: 1 }}>
-                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=500&q=85" alt="" className="w-full object-cover" style={{ height: "220px", borderRadius: "2px", filter: "brightness(0.85)" }} />
-              </div>
-            </div>
-          </FadeUp>
+          <AnimatedImageBlock />
 
           {/* Text column */}
           <FadeUp delay={0.15}>

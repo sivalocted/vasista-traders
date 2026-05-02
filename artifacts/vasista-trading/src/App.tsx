@@ -10,12 +10,13 @@ import ContactPage from "@/pages/contact";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TopBar from "@/components/TopBar";
+import BackToTop from "@/components/BackToTop";
 
 const queryClient = new QueryClient();
 
 function Router() {
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: "#fff" }}>
+    <div className="min-h-screen flex flex-col bg-white">
       <TopBar />
       <Navbar />
       <main className="flex-1">
@@ -28,6 +29,7 @@ function Router() {
         </Switch>
       </main>
       <Footer />
+      <BackToTop />
     </div>
   );
 }

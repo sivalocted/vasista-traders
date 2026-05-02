@@ -1,510 +1,398 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
-import { ArrowRight, CheckCircle, Globe, Package, TrendingUp, Award, MapPin, ChevronRight } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle,
+  Globe,
+  Package,
+  TrendingUp,
+  Award,
+  MapPin,
+  ChevronLeft,
+  ChevronRight,
+  Phone,
+  Mail,
+  Ship,
+  Truck,
+  FileCheck,
+} from "lucide-react";
 
-const products = [
+/* ─── Data ─── */
+const heroSlides = [
   {
-    name: "Sulphur",
-    description: "High-purity industrial grade sulphur for agricultural and industrial applications.",
-    image: "https://images.unsplash.com/photo-1611095973763-414019e72400?w=500&q=80",
-    category: "Minerals",
+    bg: "https://images.unsplash.com/photo-1494412651409-8963ce7935a7?w=1800&q=90",
+    tag: "IMPORT & EXPORT SERVICES",
+    line1: "Trade Everything",
+    line2: "with Excellence",
+    sub: "Delivering excellence in global trading & industrial supply",
   },
   {
-    name: "Jet Coke",
-    description: "Premium quality jet coke for fuel and industrial manufacturing processes.",
-    image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=500&q=80",
-    category: "Carbon Products",
+    bg: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1800&q=90",
+    tag: "13+ PRODUCT CATEGORIES",
+    line1: "Connecting Markets",
+    line2: "Across the Globe",
+    sub: "Your trusted partner for bulk commodities, minerals and food products",
   },
   {
-    name: "Urea",
-    description: "Agricultural-grade urea fertilizer for enhanced crop yields and soil nutrition.",
-    image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=500&q=80",
-    category: "Fertilizers",
-  },
-  {
-    name: "Manganese",
-    description: "Industrial manganese ore for steel production and metallurgical uses.",
-    image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500&q=80",
-    category: "Minerals",
-  },
-  {
-    name: "Pet Coke",
-    description: "Petroleum coke for cement, power, and steel industries with high calorific value.",
-    image: "https://images.unsplash.com/photo-1497435334941-8c899a9f15e0?w=500&q=80",
-    category: "Carbon Products",
-  },
-  {
-    name: "Iron Ore",
-    description: "High-grade iron ore for steel manufacturing and metallurgical processing.",
-    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=500&q=80",
-    category: "Minerals",
-  },
-  {
-    name: "Dry Fruits",
-    description: "Premium quality dry fruits — cashews, raisins, almonds — for global markets.",
-    image: "https://images.unsplash.com/photo-1609780447631-05b93e5a88ea?w=500&q=80",
-    category: "Food Products",
-  },
-  {
-    name: "Pesticides",
-    description: "Effective agricultural pesticides for crop protection and yield enhancement.",
-    image: "https://images.unsplash.com/photo-1592599894522-c20de17bfae3?w=500&q=80",
-    category: "Agriculture",
-  },
-  {
-    name: "Mushrooms",
-    description: "Premium dried mushrooms sourced from the finest growing regions.",
-    image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500&q=80",
-    category: "Food Products",
-  },
-  {
-    name: "Rare Earth",
-    description: "Critical rare earth minerals for high-tech manufacturing and electronics.",
-    image: "https://images.unsplash.com/photo-1559825481-12a05cc00344?w=500&q=80",
-    category: "Minerals",
-  },
-  {
-    name: "Arabica Coffee",
-    description: "Single-origin arabica coffee beans from India's finest growing estates.",
-    image: "https://images.unsplash.com/photo-1587734195503-904fca47e0e9?w=500&q=80",
-    category: "Food Products",
-  },
-  {
-    name: "Met Coke",
-    description: "High-quality metallurgical coke for blast furnace and foundry applications.",
-    image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=500&q=80",
-    category: "Carbon Products",
-  },
-  {
-    name: "Precious Metals",
-    description: "Gold, silver, and other precious metals traded with full compliance.",
-    image: "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=500&q=80",
-    category: "Metals",
+    bg: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1800&q=90",
+    tag: "6 OPERATIONAL STATES",
+    line1: "Trust. Quality.",
+    line2: "Commitment.",
+    sub: "Serving Andhra Pradesh · Maharashtra · Gujarat · Odisha · Telangana · Karnataka",
   },
 ];
 
-const states = [
-  "Andhra Pradesh",
-  "Maharashtra",
-  "Gujarat",
-  "Odisha",
-  "Telangana",
-  "Karnataka",
+const products = [
+  { name: "Sulphur",        cat: "Minerals",         img: "https://images.unsplash.com/photo-1611095973763-414019e72400?w=600&q=80",  desc: "Industrial & agricultural grade sulphur in granular and powder forms." },
+  { name: "Jet Coke",       cat: "Carbon Products",  img: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&q=80",  desc: "Premium coke for cement kilns, power plants and boilers." },
+  { name: "Urea",           cat: "Fertilizers",      img: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=80",  desc: "46% N agricultural-grade urea for enhanced crop productivity." },
+  { name: "Manganese",      cat: "Minerals",         img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&q=80",  desc: "Steel-grade manganese ore from certified mining sources." },
+  { name: "Pet Coke",       cat: "Carbon Products",  img: "https://images.unsplash.com/photo-1497435334941-8c899a9f15e0?w=600&q=80",  desc: "High fixed-carbon petroleum coke for cement & steel." },
+  { name: "Iron Ore",       cat: "Minerals",         img: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&q=80",  desc: "High-grade Fe 60%+ iron ore lumps and fines." },
+  { name: "Dry Fruits",     cat: "Food Products",    img: "https://images.unsplash.com/photo-1609780447631-05b93e5a88ea?w=600&q=80",  desc: "FSSAI-certified premium cashews, almonds, raisins and nuts." },
+  { name: "Pesticides",     cat: "Agriculture",      img: "https://images.unsplash.com/photo-1592599894522-c20de17bfae3?w=600&q=80",  desc: "CIB-registered crop-protection products for diverse crops." },
+  { name: "Mushrooms",      cat: "Food Products",    img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=600&q=80",  desc: "Export-quality dried button, oyster and specialty mushrooms." },
+  { name: "Rare Earth",     cat: "Minerals",         img: "https://images.unsplash.com/photo-1559825481-12a05cc00344?w=600&q=80",  desc: "Critical rare-earth minerals for high-tech manufacturing." },
+  { name: "Arabica Coffee", cat: "Food Products",    img: "https://images.unsplash.com/photo-1587734195503-904fca47e0e9?w=600&q=80",  desc: "APEDA-certified AAA grade single-origin Indian arabica." },
+  { name: "Met Coke",       cat: "Carbon Products",  img: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80",  desc: "Blast-furnace grade metallurgical coke — low ash & sulphur." },
+  { name: "Precious Metals",cat: "Metals",           img: "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=600&q=80",  desc: "Legally compliant trade in gold, silver and platinum." },
 ];
 
 const stats = [
-  { label: "Years of Excellence", value: "5+", icon: Award },
-  { label: "Products Traded", value: "13+", icon: Package },
-  { label: "Operational States", value: "6", icon: MapPin },
-  { label: "Global Trade Partners", value: "50+", icon: Globe },
+  { value: "5+",  label: "Years of Excellence" },
+  { value: "13+", label: "Products Traded" },
+  { value: "6",   label: "Operational States" },
+  { value: "50+", label: "Global Partners" },
 ];
 
-function useInView(threshold = 0.15) {
+const states = ["Andhra Pradesh","Maharashtra","Gujarat","Odisha","Telangana","Karnataka"];
+
+/* ─── Hook ─── */
+function useInView(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
-      { threshold }
-    );
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true); }, { threshold });
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
   return { ref, inView };
 }
 
+/* ─── Page ─── */
 export default function HomePage() {
-  const [heroLoaded, setHeroLoaded] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const about = useInView();
-  const statsSection = useInView();
-  const products1 = useInView(0.05);
-  const statesSection = useInView();
+  const [slide, setSlide] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+  const aboutSec    = useInView();
+  const whySec      = useInView();
+  const productsSec = useInView(0.04);
+  const statesSec   = useInView();
+  const ctaSec      = useInView();
 
+  useEffect(() => { const t = setTimeout(() => setLoaded(true), 80); return () => clearTimeout(t); }, []);
   useEffect(() => {
-    const t = setTimeout(() => setHeroLoaded(true), 100);
-    return () => clearTimeout(t);
+    const id = setInterval(() => setSlide(s => (s + 1) % heroSlides.length), 6000);
+    return () => clearInterval(id);
   }, []);
 
-  const heroSlides = [
-    {
-      bg: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1600&q=80",
-      heading1: "Trade Everything",
-      heading2: "with Excellence",
-      sub: "Delivering excellence in global trading & industrial supply",
-    },
-    {
-      bg: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1600&q=80",
-      heading1: "Import & Export",
-      heading2: "Across the Globe",
-      sub: "Your trusted partner for commodities, minerals and food products",
-    },
-    {
-      bg: "https://images.unsplash.com/photo-1494412651409-8963ce7935a7?w=1600&q=80",
-      heading1: "Trust. Quality.",
-      heading2: "Commitment.",
-      sub: "6 states, 13+ products, delivering industrial supply worldwide",
-    },
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((s) => (s + 1) % heroSlides.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const slide = heroSlides[currentSlide];
+  const cur = heroSlides[slide];
 
   return (
-    <div>
-      {/* Hero */}
-      <section className="relative overflow-hidden" style={{ height: "calc(100vh - 120px)", minHeight: "560px" }}>
+    <div className="overflow-x-hidden">
+
+      {/* ═══════════════ HERO ═══════════════ */}
+      <section className="relative" style={{ height: "calc(100vh - 108px)", minHeight: "560px" }}>
+        {/* Slides */}
         {heroSlides.map((s, i) => (
-          <div
-            key={i}
-            className="absolute inset-0 transition-opacity duration-1000"
-            style={{ opacity: i === currentSlide ? 1 : 0 }}
-          >
-            <img
-              src={s.bg}
-              alt=""
-              className="w-full h-full object-cover"
-              style={{ filter: "brightness(0.35)" }}
-            />
+          <div key={i} className="absolute inset-0 transition-opacity duration-1000" style={{ opacity: i === slide ? 1 : 0 }}>
+            <img src={s.bg} alt="" className="w-full h-full object-cover" />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(90deg,rgba(13,24,38,0.88) 0%,rgba(13,24,38,0.55) 60%,rgba(13,24,38,0.2) 100%)" }} />
           </div>
         ))}
+
+        {/* Content */}
         <div className="absolute inset-0 flex items-center">
           <div className="max-w-7xl mx-auto px-6 w-full">
             <div
               className="max-w-2xl"
-              style={{
-                opacity: heroLoaded ? 1 : 0,
-                transform: heroLoaded ? "none" : "translateY(30px)",
-                transition: "opacity 0.8s ease, transform 0.8s ease",
-              }}
+              style={{ opacity: loaded ? 1 : 0, transform: loaded ? "none" : "translateY(28px)", transition: "opacity .9s ease, transform .9s ease" }}
             >
-              <div className="text-sm font-semibold tracking-widest mb-4" style={{ color: "#FBD903" }}>
-                IMPORT &amp; EXPORT SERVICES
+              <div
+                className="inline-block px-3 py-1 text-xs font-black tracking-widest mb-6"
+                style={{ backgroundColor: "#FBD903", color: "#13223C" }}
+              >
+                {cur.tag}
               </div>
-              <h1 className="font-black text-white leading-none mb-2" style={{ fontSize: "clamp(3rem, 8vw, 5.5rem)" }}>
-                {slide.heading1}
+              <h1 className="font-black text-white leading-[1.05] mb-1" style={{ fontSize: "clamp(2.8rem,7vw,5.5rem)" }}>
+                {cur.line1}
               </h1>
-              <h1 className="font-black leading-none mb-6" style={{ fontSize: "clamp(3rem, 8vw, 5.5rem)", color: "#FBD903" }}>
-                {slide.heading2}
-              </h1>
-              <p className="text-white/75 text-lg mb-8 max-w-xl">{slide.sub}</p>
+              <div className="relative inline-block mb-6">
+                <h1 className="font-black leading-[1.05]" style={{ fontSize: "clamp(2.8rem,7vw,5.5rem)", color: "#FBD903" }}>
+                  {cur.line2}
+                </h1>
+                {/* Wavy underline — matches original */}
+                <svg className="absolute -bottom-3 left-0" width="260" height="14" viewBox="0 0 260 14" fill="none">
+                  <path d="M2 9 Q32 2 62 9 Q92 16 122 9 Q152 2 182 9 Q212 16 242 9 Q252 6 258 4" stroke="#FBD903" strokeWidth="3" strokeLinecap="round" fill="none"/>
+                </svg>
+              </div>
+              <p className="text-white/75 text-base md:text-lg mb-9 max-w-xl leading-relaxed">{cur.sub}</p>
               <div className="flex flex-wrap gap-4">
-                <Link
-                  href="/services"
-                  className="flex items-center gap-2 px-8 py-3.5 font-bold text-sm tracking-widest transition-all hover:brightness-90"
-                  style={{ backgroundColor: "#FBD903", color: "#13223C" }}
-                >
-                  DISCOVER MORE <ArrowRight size={15} />
+                <Link href="/services" className="flex items-center gap-2 px-8 py-3.5 font-black text-xs tracking-widest transition-all hover:brightness-90" style={{ backgroundColor: "#FBD903", color: "#13223C" }}>
+                  DISCOVER MORE <ArrowRight size={14} />
                 </Link>
-                <Link
-                  href="/contact"
-                  className="flex items-center gap-2 px-8 py-3.5 font-bold text-sm tracking-widest text-white transition-all hover:bg-white/10"
-                  style={{ border: "2px solid rgba(255,255,255,0.5)" }}
-                >
-                  GET A QUOTE <ChevronRight size={15} />
+                <Link href="/contact" className="flex items-center gap-2 px-8 py-3.5 font-black text-xs tracking-widest text-white transition-all hover:bg-white/10" style={{ border: "2px solid rgba(255,255,255,0.45)" }}>
+                  GET A FREE QUOTE <ChevronRight size={14} />
                 </Link>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Slide dots */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
-          {heroSlides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentSlide(i)}
-              className="transition-all rounded-full"
-              style={{
-                width: i === currentSlide ? "28px" : "8px",
-                height: "8px",
-                backgroundColor: i === currentSlide ? "#FBD903" : "rgba(255,255,255,0.4)",
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Slide arrows */}
-        <button
-          className="absolute right-8 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center text-white transition-all hover:bg-[#FBD903] hover:text-[#13223C]"
-          style={{ border: "2px solid rgba(255,255,255,0.4)" }}
-          onClick={() => setCurrentSlide((s) => (s + 1) % heroSlides.length)}
-        >
+        {/* Arrows */}
+        <button onClick={() => setSlide(s => (s - 1 + heroSlides.length) % heroSlides.length)}
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 hidden md:flex items-center justify-center text-white transition-all hover:bg-[#FBD903] hover:text-[#13223C] rounded-full"
+          style={{ border: "2px solid rgba(255,255,255,0.35)" }}>
+          <ChevronLeft size={20} />
+        </button>
+        <button onClick={() => setSlide(s => (s + 1) % heroSlides.length)}
+          className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 hidden md:flex items-center justify-center text-white transition-all hover:bg-[#FBD903] hover:text-[#13223C] rounded-full"
+          style={{ border: "2px solid rgba(255,255,255,0.35)" }}>
           <ChevronRight size={20} />
         </button>
+
+        {/* Dots */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+          {heroSlides.map((_, i) => (
+            <button key={i} onClick={() => setSlide(i)} className="rounded-full transition-all"
+              style={{ width: i === slide ? 28 : 8, height: 8, backgroundColor: i === slide ? "#FBD903" : "rgba(255,255,255,0.4)" }} />
+          ))}
+        </div>
       </section>
 
-      {/* Stats Bar */}
+      {/* ═══════════════ STATS BAR ═══════════════ */}
       <div style={{ backgroundColor: "#FBD903" }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 grid grid-cols-2 md:grid-cols-4 gap-4">
-          {stats.map(({ label, value, icon: Icon }) => (
-            <div key={label} className="flex items-center gap-3">
-              <Icon size={24} style={{ color: "#13223C" }} />
-              <div>
-                <div className="font-black text-xl" style={{ color: "#13223C" }}>{value}</div>
-                <div className="text-xs font-semibold" style={{ color: "#13223C", opacity: 0.7 }}>{label}</div>
-              </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 grid grid-cols-2 md:grid-cols-4 divide-x divide-[rgba(19,34,60,0.2)]">
+          {stats.map(({ value, label }) => (
+            <div key={label} className="flex flex-col items-center justify-center py-2 px-4">
+              <span className="font-black text-3xl" style={{ color: "#13223C" }}>{value}</span>
+              <span className="text-xs font-bold tracking-wider text-center" style={{ color: "rgba(19,34,60,0.65)" }}>{label}</span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* About Section */}
-      <section className="py-20" style={{ backgroundColor: "#fff" }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div
-            ref={about.ref}
-            className="grid md:grid-cols-2 gap-14 items-center"
-            style={{
-              opacity: about.inView ? 1 : 0,
-              transform: about.inView ? "none" : "translateY(30px)",
-              transition: "opacity 0.7s ease, transform 0.7s ease",
-            }}
-          >
-            {/* Image grid */}
-            <div className="relative">
-              <div className="grid grid-cols-2 gap-3">
-                <img
-                  src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=80"
-                  alt="Cargo Port"
-                  className="w-full h-52 object-cover rounded-sm"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=500&q=80"
-                  alt="Global Trade"
-                  className="w-full h-52 object-cover rounded-sm mt-10"
-                />
-              </div>
-              <div
-                className="absolute -bottom-4 left-0 px-5 py-4 rounded-sm"
-                style={{ backgroundColor: "#FBD903", color: "#13223C" }}
-              >
-                <div className="font-black text-3xl">5+</div>
-                <div className="text-xs font-bold tracking-wider">YEARS OF EXCELLENCE</div>
-              </div>
-            </div>
+      {/* ═══════════════ ABOUT ═══════════════ */}
+      <section className="py-24 relative overflow-hidden bg-white">
+        {/* Watermark */}
+        <div className="absolute -left-6 top-1/2 -translate-y-1/2 font-black text-[120px] select-none pointer-events-none leading-none" style={{ color: "rgba(19,34,60,0.04)", writingMode: "vertical-rl", letterSpacing: "0.1em" }}>
+          VASISTA
+        </div>
 
-            {/* Text */}
-            <div>
-              <div className="text-sm font-semibold tracking-widest mb-3" style={{ color: "#FBD903" }}>
-                ABOUT COMPANY
-              </div>
-              <h2 className="font-black text-4xl leading-tight mb-4" style={{ color: "#13223C" }}>
-                Empowering Trade<br />Worldwide
-              </h2>
-              <div
-                className="w-16 h-1 mb-6"
-                style={{ backgroundColor: "#FBD903" }}
-              />
-              <p className="text-gray-600 mb-4 leading-relaxed">
-                Vasista Trading Services Pvt. Ltd. is a dynamic import &amp; export company based in Mumbai, Maharashtra, delivering excellence in global trading &amp; industrial supply across India and international markets.
-              </p>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                We specialize in trading a wide range of commodities — from industrial minerals and carbon products to agricultural goods and precious metals — serving clients across 6 operational states with a commitment to trust, quality, and commitment.
-              </p>
-              <ul className="space-y-2.5 mb-8">
-                {[
-                  "Bulk commodity import & export expertise",
-                  "Operational across 6 Indian states",
-                  "GST registered: 37AALCV9169R1ZY",
-                  "Trusted by industries across sectors",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <CheckCircle size={17} className="mt-0.5 shrink-0" style={{ color: "#FBD903" }} />
-                    <span className="text-gray-700 text-sm">{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-2 px-7 py-3 font-bold text-sm tracking-widest transition-all hover:brightness-90"
-                style={{ backgroundColor: "#13223C", color: "#fff" }}
-              >
-                READ MORE <ArrowRight size={14} />
-              </Link>
+        <div
+          ref={aboutSec.ref}
+          className="max-w-7xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-16 items-center relative z-10"
+          style={{ opacity: aboutSec.inView ? 1 : 0, transform: aboutSec.inView ? "none" : "translateY(30px)", transition: "opacity .75s ease, transform .75s ease" }}
+        >
+          {/* Image column */}
+          <div className="relative">
+            <div className="grid grid-cols-2 gap-3">
+              <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=85" alt="Cargo Port" className="w-full h-64 object-cover" style={{ borderRadius: "2px" }} />
+              <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=600&q=85" alt="Global Trade" className="w-full h-64 object-cover mt-10" style={{ borderRadius: "2px" }} />
             </div>
+            {/* Yellow badge */}
+            <div className="absolute -bottom-5 left-4 px-7 py-5 shadow-xl" style={{ backgroundColor: "#FBD903", borderRadius: "2px" }}>
+              <div className="font-black text-4xl leading-none" style={{ color: "#13223C" }}>5+</div>
+              <div className="text-[11px] font-black tracking-widest mt-1" style={{ color: "#13223C" }}>YEARS OF EXCELLENCE</div>
+            </div>
+          </div>
+
+          {/* Text column */}
+          <div>
+            <div className="text-xs font-black tracking-widest mb-3 flex items-center gap-3" style={{ color: "#FBD903" }}>
+              <span className="w-8 h-0.5 inline-block" style={{ backgroundColor: "#FBD903" }} />
+              ABOUT COMPANY
+            </div>
+            <h2 className="font-black text-4xl md:text-5xl leading-tight mb-5" style={{ color: "#13223C" }}>
+              Empowering<br />Industries<br />Worldwide
+            </h2>
+            <p className="text-gray-500 leading-relaxed mb-4">
+              Vasista Trading Services Pvt. Ltd. is a dynamic import &amp; export company based in Mumbai, Maharashtra, delivering excellence in global trading &amp; industrial supply across India and international markets.
+            </p>
+            <p className="text-gray-500 leading-relaxed mb-7">
+              Our portfolio spans industrial minerals, carbon products, agricultural commodities, food products, and precious metals — serving clients across 6 operational states with unwavering commitment.
+            </p>
+            <ul className="space-y-3 mb-8">
+              {[
+                "Bulk commodity import & export expertise",
+                "Operational across 6 major Indian states",
+                "GST registered: 37AALCV9169R1ZY",
+                "Trusted by industries across multiple sectors",
+              ].map(item => (
+                <li key={item} className="flex items-start gap-3 text-sm text-gray-600">
+                  <CheckCircle size={16} className="mt-0.5 shrink-0" style={{ color: "#FBD903" }} />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <Link href="/about" className="inline-flex items-center gap-2 px-7 py-3.5 font-black text-xs tracking-widest text-white transition-all hover:opacity-90" style={{ backgroundColor: "#13223C" }}>
+              READ MORE <ArrowRight size={14} />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-16" style={{ backgroundColor: "#f4f6f9" }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12">
-            <div className="text-sm font-semibold tracking-widest mb-2" style={{ color: "#FBD903" }}>
-              WHY CHOOSE US
-            </div>
-            <h2 className="font-black text-3xl" style={{ color: "#13223C" }}>
-              Our Competitive Advantages
-            </h2>
+      {/* ═══════════════ WHY CHOOSE US ═══════════════ */}
+      <section className="py-20" style={{ backgroundColor: "#f4f7fa" }}>
+        <div
+          ref={whySec.ref}
+          className="max-w-7xl mx-auto px-4 sm:px-6"
+          style={{ opacity: whySec.inView ? 1 : 0, transform: whySec.inView ? "none" : "translateY(24px)", transition: "opacity .7s ease, transform .7s ease" }}
+        >
+          <div className="text-center mb-14">
+            <div className="text-xs font-black tracking-widest mb-2" style={{ color: "#FBD903" }}>WHY CHOOSE US</div>
+            <h2 className="font-black text-4xl" style={{ color: "#13223C" }}>Our Core Services</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             {[
-              {
-                icon: Globe,
-                title: "Global Reach",
-                desc: "We connect Indian suppliers with international buyers, ensuring seamless cross-border trade for commodities and industrial goods.",
-              },
-              {
-                icon: Award,
-                title: "Quality Assurance",
-                desc: "Every product we trade meets stringent quality standards, backed by proper documentation and compliance with regulations.",
-              },
-              {
-                icon: TrendingUp,
-                title: "Market Expertise",
-                desc: "Deep knowledge of commodity markets enables us to offer competitive pricing and reliable supply chains for our clients.",
-              },
+              { icon: Ship,      title: "Sea & Air Freight",  desc: "End-to-end sea and air freight solutions for bulk commodities, ensuring timely delivery and full documentation compliance." },
+              { icon: Truck,     title: "Domestic Logistics", desc: "Reliable inland transportation across 6 operational states with a trusted network of logistics partners." },
+              { icon: FileCheck, title: "Trade Documentation", desc: "Expert handling of all import-export documentation — LC, BL, certificates of origin, phytosanitary, and customs clearance." },
+              { icon: Globe,     title: "Global Sourcing",    desc: "Sourcing premium commodities from certified suppliers worldwide with competitive pricing and quality assurance." },
+              { icon: Package,   title: "Bulk Supply",        desc: "Specialised in high-volume bulk trading of minerals, agri-products, carbon products and precious metals." },
+              { icon: TrendingUp,title: "Market Intelligence",desc: "Real-time commodity market insights, price forecasting, and trade advisory for informed business decisions." },
             ].map(({ icon: Icon, title, desc }) => (
-              <div
-                key={title}
-                className="p-8 rounded-sm transition-all hover:-translate-y-1 hover:shadow-lg"
-                style={{ backgroundColor: "#fff", borderTop: "4px solid #FBD903" }}
-              >
-                <div
-                  className="w-14 h-14 rounded-sm flex items-center justify-center mb-5"
-                  style={{ backgroundColor: "#13223C" }}
-                >
-                  <Icon size={24} style={{ color: "#FBD903" }} />
+              <div key={title} className="group p-8 bg-white transition-all hover:-translate-y-1 hover:shadow-xl" style={{ borderTop: "4px solid #FBD903" }}>
+                <div className="w-14 h-14 flex items-center justify-center mb-5 transition-colors group-hover:bg-[#FBD903]" style={{ backgroundColor: "#13223C", borderRadius: "2px" }}>
+                  <Icon size={22} className="transition-colors group-hover:text-[#13223C]" style={{ color: "#FBD903" }} />
                 </div>
-                <h3 className="font-bold text-lg mb-3" style={{ color: "#13223C" }}>{title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{desc}</p>
+                <h3 className="font-black text-lg mb-3" style={{ color: "#13223C" }}>{title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+                <div className="mt-5">
+                  <Link href="/services" className="text-xs font-black tracking-wider flex items-center gap-1 transition-colors hover:text-[#FBD903]" style={{ color: "#13223C" }}>
+                    READ MORE <ArrowRight size={12} />
+                  </Link>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Products Section */}
-      <section className="py-20" style={{ backgroundColor: "#fff" }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12">
-            <div className="text-sm font-semibold tracking-widest mb-2" style={{ color: "#FBD903" }}>
-              WHAT WE TRADE
-            </div>
-            <h2 className="font-black text-3xl" style={{ color: "#13223C" }}>
-              Our Products
-            </h2>
-            <div className="w-16 h-1 mx-auto mt-4" style={{ backgroundColor: "#FBD903" }} />
+      {/* ═══════════════ PRODUCTS ═══════════════ */}
+      <section className="py-24 bg-white relative overflow-hidden">
+        {/* Right watermark */}
+        <div className="absolute -right-6 top-1/2 -translate-y-1/2 font-black text-[120px] select-none pointer-events-none leading-none" style={{ color: "rgba(19,34,60,0.04)", writingMode: "vertical-rl", letterSpacing: "0.1em" }}>
+          TRADING
+        </div>
+        <div
+          ref={productsSec.ref}
+          className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10"
+          style={{ opacity: productsSec.inView ? 1 : 0, transform: productsSec.inView ? "none" : "translateY(20px)", transition: "opacity .7s ease, transform .7s ease" }}
+        >
+          <div className="text-center mb-14">
+            <div className="text-xs font-black tracking-widest mb-2" style={{ color: "#FBD903" }}>WHAT WE TRADE</div>
+            <h2 className="font-black text-4xl" style={{ color: "#13223C" }}>Our Products</h2>
           </div>
-          <div
-            ref={products1.ref}
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-            style={{
-              opacity: products1.inView ? 1 : 0,
-              transform: products1.inView ? "none" : "translateY(20px)",
-              transition: "opacity 0.6s ease, transform 0.6s ease",
-            }}
-          >
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {products.map((p, i) => (
               <div
                 key={p.name}
-                className="group overflow-hidden rounded-sm cursor-pointer"
-                style={{
-                  transitionDelay: `${i * 40}ms`,
-                  boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
-                }}
+                className="group overflow-hidden cursor-pointer"
+                style={{ borderRadius: "2px", boxShadow: "0 2px 12px rgba(0,0,0,0.08)", transitionDelay: `${i * 30}ms` }}
               >
-                <div className="relative overflow-hidden h-44">
-                  <img
-                    src={p.image}
-                    alt={p.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div
-                    className="absolute inset-0 transition-opacity duration-300"
-                    style={{
-                      background: "linear-gradient(to top, rgba(13,24,38,0.85) 0%, transparent 60%)",
-                    }}
-                  />
-                  <div
-                    className="absolute top-3 right-3 px-2 py-0.5 text-xs font-bold rounded-sm"
-                    style={{ backgroundColor: "#FBD903", color: "#13223C" }}
-                  >
-                    {p.category}
+                <div className="relative overflow-hidden h-40">
+                  <img src={p.img} alt={p.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  <div className="absolute inset-0 transition-opacity duration-300" style={{ background: "linear-gradient(to top,rgba(13,24,38,0.82) 0%,transparent 55%)" }} />
+                  <div className="absolute top-2 right-2 px-1.5 py-0.5 text-[10px] font-black rounded-sm" style={{ backgroundColor: "#FBD903", color: "#13223C" }}>
+                    {p.cat}
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-3">
-                    <h3 className="font-bold text-white text-sm">{p.name}</h3>
+                  <div className="absolute bottom-0 left-0 right-0 p-2.5">
+                    <h3 className="font-black text-white text-xs">{p.name}</h3>
                   </div>
                 </div>
                 <div className="p-3">
-                  <p className="text-gray-600 text-xs leading-relaxed">{p.description}</p>
+                  <p className="text-gray-500 text-[11px] leading-relaxed">{p.desc}</p>
                 </div>
               </div>
             ))}
           </div>
-          <div className="text-center mt-10">
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-2 px-8 py-3.5 font-bold text-sm tracking-widest transition-all hover:brightness-90"
-              style={{ backgroundColor: "#FBD903", color: "#13223C" }}
-            >
+
+          <div className="text-center mt-12">
+            <Link href="/services" className="inline-flex items-center gap-2 px-9 py-4 font-black text-xs tracking-widest transition-all hover:brightness-90" style={{ backgroundColor: "#FBD903", color: "#13223C" }}>
               VIEW ALL SERVICES <ArrowRight size={14} />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Operational States */}
-      <section className="py-16" style={{ backgroundColor: "#13223C" }}>
+      {/* ═══════════════ OPERATIONAL STATES ═══════════════ */}
+      <section className="py-20 relative overflow-hidden" style={{ backgroundColor: "#13223C" }}>
+        <div className="absolute inset-0 opacity-5">
+          <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1600&q=60" alt="" className="w-full h-full object-cover" />
+        </div>
         <div
-          ref={statesSection.ref}
-          className="max-w-7xl mx-auto px-4 sm:px-6"
-          style={{
-            opacity: statesSection.inView ? 1 : 0,
-            transition: "opacity 0.7s ease",
-          }}
+          ref={statesSec.ref}
+          className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10"
+          style={{ opacity: statesSec.inView ? 1 : 0, transition: "opacity .8s ease" }}
         >
-          <div className="text-center mb-10">
-            <div className="text-sm font-semibold tracking-widest mb-2" style={{ color: "#FBD903" }}>
-              WHERE WE OPERATE
-            </div>
-            <h2 className="font-black text-3xl text-white">Operational States</h2>
+          <div className="text-center mb-12">
+            <div className="text-xs font-black tracking-widest mb-2" style={{ color: "#FBD903" }}>WHERE WE OPERATE</div>
+            <h2 className="font-black text-4xl text-white">Operational States</h2>
           </div>
           <div className="flex flex-wrap justify-center gap-4">
-            {states.map((state) => (
-              <div
-                key={state}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-sm text-sm font-semibold transition-all hover:bg-[#FBD903] hover:text-[#13223C] group"
-                style={{ border: "1px solid rgba(251,217,3,0.4)", color: "#fff" }}
-              >
-                <MapPin size={14} style={{ color: "#FBD903" }} className="group-hover:text-[#13223C]" />
-                {state}
+            {states.map(state => (
+              <div key={state} className="group flex items-center gap-2 px-6 py-3 text-sm font-bold transition-all hover:bg-[#FBD903] cursor-default" style={{ border: "1px solid rgba(251,217,3,0.45)", color: "#fff", borderRadius: "2px" }}>
+                <MapPin size={14} className="group-hover:text-[#13223C]" style={{ color: "#FBD903" }} />
+                <span className="group-hover:text-[#13223C]">{state}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Banner */}
+      {/* ═══════════════ CALL TO ACTION STRIP ═══════════════ */}
       <section
-        className="py-20 relative overflow-hidden"
+        ref={ctaSec.ref}
+        className="py-20"
         style={{
-          background: "linear-gradient(135deg, #0D1826 0%, #1e3a5f 50%, #0D1826 100%)",
+          background: "linear-gradient(135deg, #0D1826 0%, #1a3050 50%, #0D1826 100%)",
+          opacity: ctaSec.inView ? 1 : 0,
+          transition: "opacity .8s ease",
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center relative z-10">
-          <h2 className="font-black text-4xl text-white mb-4">
-            Ready to Trade with Us?
-          </h2>
-          <p className="text-white/70 text-lg mb-8 max-w-xl mx-auto">
-            Partner with Vasista Trading Services for reliable, quality-assured import &amp; export solutions.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 px-10 py-4 font-bold tracking-widest text-sm transition-all hover:brightness-90"
-            style={{ backgroundColor: "#FBD903", color: "#13223C" }}
-          >
-            GET A FREE QUOTE <ArrowRight size={15} />
-          </Link>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid md:grid-cols-2 gap-10 items-center">
+            <div>
+              <div className="text-xs font-black tracking-widest mb-3" style={{ color: "#FBD903" }}>GET IN TOUCH</div>
+              <h2 className="font-black text-4xl text-white mb-4 leading-tight">Ready to Trade<br />with Us?</h2>
+              <p className="text-white/65 leading-relaxed mb-6">
+                Partner with Vasista Trading Services for reliable, quality-assured import &amp; export solutions. We bring you the best commodities at competitive pricing.
+              </p>
+              <Link href="/contact" className="inline-flex items-center gap-2 px-9 py-4 font-black text-xs tracking-widest transition-all hover:brightness-90" style={{ backgroundColor: "#FBD903", color: "#13223C" }}>
+                GET A FREE QUOTE <ArrowRight size={14} />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 gap-4">
+              {[
+                { icon: Phone, label: "Call Anytime", value: "+91 85919 38908", href: "tel:+918591938908" },
+                { icon: Mail,  label: "Email Us",    value: "info@vasistatradingservices.com", href: "mailto:info@vasistatradingservices.com" },
+                { icon: Globe, label: "Website",     value: "www.vasistatradingservices.com", href: "http://www.vasistatradingservices.com" },
+              ].map(({ icon: Icon, label, value, href }) => (
+                <a key={label} href={href} className="flex items-center gap-4 p-4 transition-colors hover:bg-white/5 group" style={{ border: "1px solid rgba(255,255,255,0.08)", borderRadius: "2px" }}>
+                  <div className="w-11 h-11 flex items-center justify-center shrink-0 group-hover:bg-[#FBD903] transition-colors" style={{ backgroundColor: "rgba(251,217,3,0.15)", borderRadius: "2px" }}>
+                    <Icon size={18} style={{ color: "#FBD903" }} />
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-black tracking-wider" style={{ color: "rgba(255,255,255,0.4)" }}>{label.toUpperCase()}</div>
+                    <div className="text-white font-bold text-sm break-all">{value}</div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </div>

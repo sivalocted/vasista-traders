@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Search, Phone } from "lucide-react";
+import logo from "/logo.png";
 
 const navLinks = [
   { label: "HOME", href: "/" },
@@ -24,25 +25,23 @@ export default function Navbar() {
     <nav
       className="sticky top-0 z-50 transition-all duration-300"
       style={{
-        backgroundColor: scrolled ? "rgba(13,24,38,0.97)" : "#13223C",
-        boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.3)" : "none",
+        backgroundColor: scrolled ? "rgba(255,255,255,0.98)" : "#ffffff",
+        boxShadow: "0 2px 20px rgba(0,0,0,0.1)",
+        borderBottom: "3px solid #FBD903",
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative">
-              <div
-                className="w-14 h-14 rounded-sm flex items-center justify-center font-black text-2xl"
-                style={{ background: "linear-gradient(135deg, #13223C 0%, #1e3a5f 100%)", border: "2px solid #FBD903" }}
-              >
-                <span style={{ color: "#FBD903" }}>VE</span>
-              </div>
-            </div>
-            <div className="leading-tight">
-              <div className="font-bold text-white text-sm tracking-wider">VASISTA</div>
-              <div className="text-[10px] tracking-widest" style={{ color: "#FBD903" }}>TRADING SERVICES</div>
+            <img
+              src={logo}
+              alt="Vasista Trading Services"
+              className="h-14 w-auto object-contain"
+            />
+            <div className="leading-tight hidden sm:block">
+              <div className="font-black text-sm tracking-wider" style={{ color: "#13223C" }}>VASISTA</div>
+              <div className="text-[10px] font-bold tracking-widest" style={{ color: "#FBD903" }}>TRADING SERVICES</div>
             </div>
           </Link>
 
@@ -52,8 +51,8 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="relative px-4 py-2 text-xs font-semibold tracking-widest transition-colors group"
-                style={{ color: location === link.href ? "#FBD903" : "rgba(255,255,255,0.85)" }}
+                className="relative px-4 py-2 text-xs font-bold tracking-widest transition-colors group"
+                style={{ color: location === link.href ? "#FBD903" : "#13223C" }}
               >
                 {link.label}
                 <span
@@ -69,10 +68,10 @@ export default function Navbar() {
 
           {/* CTA + Search */}
           <div className="hidden lg:flex items-center gap-4">
-            <button className="text-white hover:text-[#FBD903] transition-colors">
+            <button className="transition-colors hover:text-[#FBD903]" style={{ color: "#13223C" }}>
               <Search size={18} />
             </button>
-            <div className="flex items-center gap-2 text-white text-sm">
+            <div className="flex items-center gap-2 text-sm">
               <div
                 className="w-9 h-9 rounded-full flex items-center justify-center"
                 style={{ backgroundColor: "#FBD903" }}
@@ -80,13 +79,13 @@ export default function Navbar() {
                 <Phone size={15} style={{ color: "#13223C" }} />
               </div>
               <div>
-                <div className="text-[10px] opacity-60">Call Anytime</div>
-                <div className="font-bold text-sm">+91 85919 38908</div>
+                <div className="text-[10px] opacity-50" style={{ color: "#13223C" }}>Call Anytime</div>
+                <div className="font-black text-sm" style={{ color: "#13223C" }}>+91 85919 38908</div>
               </div>
             </div>
             <Link
               href="/contact"
-              className="px-5 py-2.5 text-xs font-bold tracking-widest transition-all hover:brightness-90"
+              className="px-5 py-3 text-xs font-black tracking-widest transition-all hover:brightness-90 text-white"
               style={{ backgroundColor: "#FBD903", color: "#13223C" }}
             >
               GET A FREE QUOTE
@@ -95,7 +94,8 @@ export default function Navbar() {
 
           {/* Mobile toggle */}
           <button
-            className="lg:hidden text-white"
+            className="lg:hidden"
+            style={{ color: "#13223C" }}
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -104,13 +104,13 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {isOpen && (
-          <div className="lg:hidden border-t border-white/10 py-4">
+          <div className="lg:hidden border-t py-4" style={{ borderColor: "#e5e7eb" }}>
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="block px-4 py-3 text-sm font-semibold tracking-wider transition-colors"
-                style={{ color: location === link.href ? "#FBD903" : "rgba(255,255,255,0.85)" }}
+                className="block px-4 py-3 text-sm font-bold tracking-wider transition-colors"
+                style={{ color: location === link.href ? "#FBD903" : "#13223C" }}
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
@@ -119,7 +119,7 @@ export default function Navbar() {
             <div className="mt-4 px-4">
               <Link
                 href="/contact"
-                className="block text-center px-5 py-3 text-xs font-bold tracking-widest"
+                className="block text-center px-5 py-3 text-xs font-black tracking-widest"
                 style={{ backgroundColor: "#FBD903", color: "#13223C" }}
                 onClick={() => setIsOpen(false)}
               >

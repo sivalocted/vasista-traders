@@ -1,0 +1,44 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "8tKbvMjf4c4R6G-4n4KyI"
+uri = "file://attached_assets/generated_images/generated_image.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "tbOXV2biCgdrHL7MMYO-p"
+uri = "file://artifacts/vasista-trading/public/hero-port.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "SJMtEHDmRn3T3pc2hf5cE"
+uri = "file://artifacts/vasista-trading/public/hero-global.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "j6HCKDyBMEqDF3sq-mDZj"
+uri = "file://artifacts/vasista-trading/public/about-handshake.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "InpE-9RY50eKK1vXJ3xwg"
+uri = "file://artifacts/vasista-trading/public/warehouse.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "U6Dckp32q7wFmjSglYOz1"
+uri = "file://artifacts/vasista-trading/public/hero-ship.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "Jreerd89ZRbkjO3Pq55Se"
+uri = "file://artifacts/vasista-trading/public/about2.png"
+type = "image"
+title = "generated_image"

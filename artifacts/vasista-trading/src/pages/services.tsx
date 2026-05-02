@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { ArrowRight, Ship, Truck, FileCheck, Globe, Package, TrendingUp, ShieldCheck, Handshake, BarChart3 } from "lucide-react";
 
@@ -6,23 +7,23 @@ const services = [
     icon: Ship,
     title: "Sea Freight",
     category: "Logistics",
-    description: "Comprehensive sea freight solutions for bulk shipments. We manage full container loads (FCL) and less than container loads (LCL) with full cargo tracking and documentation.",
-    features: ["FCL & LCL Shipments", "Port-to-Port Delivery", "Cargo Tracking"],
-    image: "https://images.unsplash.com/photo-1494412651409-8963ce7935a7?w=600&q=80",
+    description: "Full-service ocean freight management for FCL and LCL shipments. We handle booking, documentation, port coordination and cargo tracking across major Indian and international ports.",
+    features: ["FCL & LCL Shipments", "Port-to-Port Coordination", "Live Cargo Tracking"],
+    image: "/hero-port.png",
   },
   {
     icon: Truck,
     title: "Air Freight",
     category: "Logistics",
-    description: "Express air freight for time-sensitive cargo with access to major Indian and international airports. Ideal for high-value and urgent consignments.",
-    features: ["Express Delivery", "Secure Handling", "Door-to-Door Options"],
+    description: "Time-critical air cargo solutions connecting India to global destinations. Ideal for urgent and high-value consignments requiring express, secure and fully tracked delivery.",
+    features: ["Express Delivery", "High-Value Cargo Handling", "Door-to-Door Options"],
     image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80",
   },
   {
     icon: FileCheck,
     title: "Trade Documentation",
     category: "Compliance",
-    description: "End-to-end handling of all import-export documentation ensuring full regulatory compliance. Letters of credit, bills of lading, certificates of origin, and customs clearance.",
+    description: "Meticulous handling of all import-export paperwork. Letters of credit, bills of lading, packing lists, certificates of origin, phytosanitary certificates and full customs clearance.",
     features: ["LC & BL Processing", "Certificates of Origin", "Customs Clearance"],
     image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=600&q=80",
   },
@@ -30,55 +31,53 @@ const services = [
     icon: Globe,
     title: "Global Sourcing",
     category: "Procurement",
-    description: "Strategic sourcing of commodities from a verified global network of suppliers. We negotiate competitive pricing, perform quality checks, and manage supplier relationships.",
-    features: ["Verified Suppliers", "Quality Inspection", "Price Negotiation"],
-    image: "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&q=80",
+    description: "Strategic identification and onboarding of verified suppliers worldwide. We negotiate competitive pricing, conduct quality checks, and manage long-term supplier relationships on your behalf.",
+    features: ["Supplier Verification", "Quality Inspection", "Price Negotiation"],
+    image: "/hero-global.png",
   },
   {
     icon: Package,
     title: "Bulk Trading",
     category: "Trading",
-    description: "High-volume bulk commodity trading with consistent quality control from source to delivery. We handle the full supply chain for both import and export operations.",
-    features: ["High-Volume Orders", "Quality Assurance", "End-to-End Supply Chain"],
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80",
+    description: "High-volume bulk commodity trading with consistent quality control from source to delivery. We manage the full supply chain for both import and export operations at scale.",
+    features: ["Large-Volume Orders", "End-to-End Supply Chain", "Quality at Scale"],
+    image: "/hero-ship.png",
   },
   {
     icon: TrendingUp,
     title: "Market Intelligence",
     category: "Advisory",
-    description: "Real-time commodity market data, price trend analysis, and strategic trade advisory. Our insights help clients make informed decisions and capitalise on market opportunities.",
-    features: ["Price Forecasting", "Market Reports", "Trade Advisory"],
+    description: "Real-time commodity price data, market trend analysis and trade route optimization. Our insights help clients time their transactions and capitalize on emerging trade opportunities.",
+    features: ["Price Trend Analysis", "Market Reports", "Trade Route Advisory"],
     image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80",
   },
   {
     icon: ShieldCheck,
     title: "Quality Assurance",
     category: "Quality",
-    description: "Rigorous pre-shipment and post-shipment quality inspections by certified third-party agencies. We ensure every consignment meets agreed specifications and international standards.",
+    description: "Rigorous pre-shipment and post-shipment inspections by certified third-party agencies. Every consignment is verified against agreed specifications before it leaves the origin.",
     features: ["Third-Party Inspections", "Pre-Shipment Checks", "Compliance Certificates"],
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80",
+    image: "/warehouse.png",
   },
   {
     icon: Handshake,
     title: "Trade Finance",
-    description: "Advisory and facilitation for trade finance instruments including letters of credit, bank guarantees, and export credit. We bridge buyers and sellers with secure payment structures.",
     category: "Finance",
+    description: "Guidance and facilitation for trade finance instruments — letters of credit, bank guarantees, export credit insurance and payment security structures for buyers and sellers.",
     features: ["LC Facilitation", "Bank Guarantees", "Export Credit"],
-    image: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80",
+    image: "/about-handshake.png",
   },
   {
     icon: BarChart3,
     title: "Domestic Distribution",
     category: "Logistics",
-    description: "Pan-India distribution network across 6 operational states — Andhra Pradesh, Maharashtra, Gujarat, Odisha, Telangana, and Karnataka — for seamless inland delivery.",
+    description: "Pan-India distribution across 6 states — Andhra Pradesh, Maharashtra, Gujarat, Odisha, Telangana, and Karnataka — with reliable last-mile delivery and inventory management.",
     features: ["6 State Coverage", "Last-Mile Delivery", "Inventory Management"],
     image: "https://images.unsplash.com/photo-1553413077-190dd305871c?w=600&q=80",
   },
 ];
 
 const categories = ["All", "Logistics", "Compliance", "Procurement", "Trading", "Advisory", "Quality", "Finance"];
-
-import { useState } from "react";
 
 export default function ServicesPage() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -90,12 +89,12 @@ export default function ServicesPage() {
   return (
     <div>
       {/* Page Header */}
-      <div className="relative py-20 overflow-hidden" style={{ backgroundColor: "#13223C" }}>
-        <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1400&q=80" alt="" className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.15 }} />
+      <div className="relative py-24 overflow-hidden" style={{ backgroundColor: "#13223C" }}>
+        <img src="/hero-ship.png" alt="" className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.25 }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 text-center">
           <div className="text-xs font-black tracking-widest mb-3" style={{ color: "#FBD903" }}>WHAT WE OFFER</div>
-          <h1 className="font-black text-5xl text-white mb-4">Our Services</h1>
-          <div className="flex items-center justify-center gap-2 text-sm text-white/60">
+          <h1 className="font-black text-5xl md:text-6xl text-white mb-4">Our Services</h1>
+          <div className="flex items-center justify-center gap-2 text-sm text-white/50">
             <Link href="/" className="hover:text-[#FBD903] transition-colors">Home</Link>
             <span>›</span>
             <span>Our Services</span>
@@ -106,10 +105,10 @@ export default function ServicesPage() {
       {/* Intro */}
       <section className="py-16" style={{ backgroundColor: "#f4f6f9" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-          <div className="text-xs font-black tracking-widest mb-2" style={{ color: "#FBD903" }}>IMPORT & EXPORT SPECIALISTS</div>
-          <h2 className="font-black text-3xl mb-4" style={{ color: "#13223C" }}>Comprehensive Trading Solutions</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Vasista Trading Services Pvt. Ltd. provides end-to-end import and export solutions across multiple trade categories. We ensure quality, compliance, and timely delivery for every transaction.
+          <div className="text-xs font-black tracking-widest mb-2" style={{ color: "#FBD903" }}>END-TO-END TRADE SOLUTIONS</div>
+          <h2 className="font-black text-4xl mb-4" style={{ color: "#13223C" }}>Everything Your Business Needs to Trade</h2>
+          <p className="text-gray-500 max-w-2xl mx-auto leading-relaxed">
+            From freight and documentation to sourcing and market intelligence — Vasista Trading Services delivers comprehensive import-export solutions that keep your business moving without interruption.
           </p>
         </div>
       </section>
@@ -144,7 +143,7 @@ export default function ServicesPage() {
               >
                 <div className="relative overflow-hidden h-48">
                   <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top,rgba(13,24,38,0.75) 0%,transparent 60%)" }} />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top,rgba(13,24,38,0.8) 0%,transparent 55%)" }} />
                   <div className="absolute top-3 right-3 px-2 py-0.5 text-[11px] font-black" style={{ backgroundColor: "#FBD903", color: "#13223C", borderRadius: "2px" }}>
                     {category}
                   </div>
@@ -159,7 +158,7 @@ export default function ServicesPage() {
                   <p className="text-gray-500 text-sm leading-relaxed mb-4">{description}</p>
                   <ul className="space-y-1.5 mb-5">
                     {features.map(f => (
-                      <li key={f} className="flex items-center gap-2 text-xs text-gray-600">
+                      <li key={f} className="flex items-center gap-2 text-xs text-gray-500">
                         <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: "#FBD903" }} />
                         {f}
                       </li>
@@ -175,15 +174,33 @@ export default function ServicesPage() {
         </div>
       </section>
 
+      {/* Wide image banner */}
+      <div className="relative h-56 overflow-hidden">
+        <img src="/about2.png" alt="Operations" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 flex items-center justify-center"
+          style={{ background: "rgba(13,24,38,0.82)" }}>
+          <div className="text-center px-6">
+            <h3 className="font-black text-2xl md:text-3xl text-white mb-4">
+              Not sure which service fits your need?
+            </h3>
+            <Link href="/contact"
+              className="inline-flex items-center gap-2 px-8 py-3 font-black text-xs tracking-widest transition-all hover:brightness-90"
+              style={{ backgroundColor: "#FBD903", color: "#13223C" }}>
+              TALK TO OUR TEAM <ArrowRight size={13} />
+            </Link>
+          </div>
+        </div>
+      </div>
+
       {/* CTA */}
       <section className="py-16" style={{ backgroundColor: "#13223C" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
           <h2 className="font-black text-3xl text-white mb-4">Need a Custom Trade Solution?</h2>
-          <p className="text-white/70 mb-8 max-w-lg mx-auto">
-            Contact us for tailored sourcing, bulk pricing, and full export-import support.
+          <p className="text-white/60 mb-8 max-w-lg mx-auto text-sm leading-relaxed">
+            Every business is different. Contact us to design a trade solution tailored specifically to your requirements.
           </p>
-          <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-3.5 font-black tracking-widest text-xs transition-all hover:brightness-90" style={{ backgroundColor: "#FBD903", color: "#13223C" }}>
-            CONTACT US <ArrowRight size={14} />
+          <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 font-black tracking-widest text-xs transition-all hover:brightness-90" style={{ backgroundColor: "#FBD903", color: "#13223C" }}>
+            CONTACT US TODAY <ArrowRight size={14} />
           </Link>
         </div>
       </section>

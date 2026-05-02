@@ -20,23 +20,18 @@ export default function Footer() {
             <p className="text-sm leading-relaxed mb-5">
               Delivering excellence in global trading &amp; industrial supply. Your trusted partner for import &amp; export across India and worldwide.
             </p>
-            <p className="text-xs mb-1">
+            <p className="text-xs mb-4">
               <span style={{ color: "#FBD903" }}>GST:</span> 37AALCV9169R1ZY
             </p>
-            <div className="flex items-center gap-3 mt-5">
+            <div className="flex items-center gap-3">
               {[
                 { href: "https://www.facebook.com/share/1HWeDcLf9Q/?mibextid=wwXlfr", icon: <FaFacebookF size={13} /> },
-                { href: "https://www.instagram.com/vasista_trading_services", icon: <FaInstagram size={13} /> },
+                { href: "https://www.instagram.com/vasista_trading_services",           icon: <FaInstagram size={13} /> },
                 { href: "https://www.linkedin.com/company/vasista-trading-services-private-limited", icon: <FaLinkedinIn size={13} /> },
               ].map(({ href, icon }) => (
-                <a
-                  key={href}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <a key={href} href={href} target="_blank" rel="noopener noreferrer"
                   className="w-8 h-8 rounded flex items-center justify-center transition-all hover:bg-[#FBD903] hover:text-[#13223C]"
-                  style={{ border: "1px solid rgba(255,255,255,0.2)", color: "#aab4c4" }}
-                >
+                  style={{ border: "1px solid rgba(255,255,255,0.2)", color: "#aab4c4" }}>
                   {icon}
                 </a>
               ))}
@@ -50,31 +45,39 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5">
               {[
-                { label: "Home", href: "/" },
-                { label: "About Us", href: "/about" },
-                { label: "Our Services", href: "/services" },
-                { label: "Contact Us", href: "/contact" },
-              ].map((link) => (
+                { label: "Home",        href: "/" },
+                { label: "About Us",    href: "/about" },
+                { label: "Our Services",href: "/services" },
+                { label: "Contact Us",  href: "/contact" },
+              ].map(link => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-sm hover:text-[#FBD903] transition-colors flex items-center gap-2">
-                    <span style={{ color: "#FBD903" }}>›</span>
-                    {link.label}
+                    <span style={{ color: "#FBD903" }}>›</span>{link.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Products */}
+          {/* Services */}
           <div>
             <h4 className="font-black text-white text-xs tracking-widest mb-5 pb-3" style={{ borderBottom: "2px solid #FBD903", display: "inline-block" }}>
-              OUR PRODUCTS
+              OUR SERVICES
             </h4>
             <ul className="space-y-2">
-              {["Sulphur", "Jet Coke", "Urea", "Manganese", "Pet Coke", "Iron Ore", "Dry Fruits", "Arabica Coffee", "Met Coke", "Precious Metals"].map((p) => (
-                <li key={p} className="text-sm flex items-center gap-2">
-                  <span style={{ color: "#FBD903" }}>›</span>
-                  {p}
+              {[
+                "Sea Freight",
+                "Air Freight",
+                "Trade Documentation",
+                "Global Sourcing",
+                "Bulk Trading",
+                "Market Intelligence",
+                "Quality Assurance",
+                "Trade Finance",
+                "Domestic Distribution",
+              ].map(s => (
+                <li key={s} className="text-sm flex items-center gap-2">
+                  <span style={{ color: "#FBD903" }}>›</span>{s}
                 </li>
               ))}
             </ul>
